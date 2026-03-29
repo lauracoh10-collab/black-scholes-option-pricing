@@ -5,187 +5,141 @@
 [![Matplotlib](https://img.shields.io/badge/Matplotlib-3.7+-green.svg)](https://matplotlib.org/)
 [![SciPy](https://img.shields.io/badge/SciPy-1.11+-red.svg)](https://scipy.org/)
 
+
 ## 📋 Description
+This project implements the Black–Scholes model for pricing European call options. It compares two approaches:
 
-Ce projet implémente le modèle de Black–Scholes pour la valorisation d'options d'achat européennes (European call options). Il compare deux approches :
+Analytical solution: closed-form Black–Scholes formula
+Numerical method: Finite Difference Method (FDM) resolution
 
-- **Solution analytique** : formule fermée de Black–Scholes
-- **Méthode numérique** : résolution par différences finies (FDM - Finite Difference Method)
+The notebook also explores the calculation of Greeks (Delta, Gamma, Theta), which measure the sensitivity of the option price to different market parameters.
 
-Le notebook explore également le calcul des **Greeks** (Delta, Gamma, Theta) qui mesurent la sensibilité du prix de l'option aux différents paramètres du marché.
+## 🎯 Objectives
 
-## 🎯 Objectifs
+Understand the Black–Scholes model and its assumptions
+Implement the analytical solution for option pricing
+Develop a numerical solver using finite differences
+Calculate and visualize Greeks for risk analysis
+Compare analytical and numerical results
 
-- Comprendre le modèle Black–Scholes et ses hypothèses
-- Implémenter la solution analytique pour le pricing d'options
-- Développer un solveur numérique par différences finies
-- Calculer et visualiser les Greeks pour l'analyse de risque
-- Comparer les résultats analytiques et numériques
+## 📊 Features
 
-## 📊 Fonctionnalités
+1. Analytical Solution
 
-### 1. Solution Analytique
-- Calcul du prix de l'option selon la formule de Black–Scholes
-- Calcul analytique des Greeks (Delta, Gamma, Vega, Theta, Rho)
+Option price calculation using the Black–Scholes formula
+Analytical calculation of Greeks (Delta, Gamma, Vega, Theta, Rho)
 
-### 2. Méthode des Différences Finies
-- Discrétisation de l'EDP de Black–Scholes
-- Schéma implicite pour la stabilité numérique
-- Surface de prix option en fonction du temps et du prix de l'actif
+2. Finite Difference Method
 
-### 3. Visualisations
-- Comparaison prix analytique vs numérique
-- Évolution des Greeks en fonction du prix de l'actif
-- Surface 3D du prix de l'option
+Discretization of the Black–Scholes PDE
+Implicit scheme for numerical stability
+Option price surface as a function of time and asset price
 
-## 🚀 Installation
+3. Visualizations
 
-### Prérequis
+Comparison of analytical vs numerical prices
+Greeks evolution as a function of asset price
+3D surface plot of option price
 
-Python 3.11 ou supérieur
+## 💻 Usage
 
-### Dépendances
+1. Clone the repository:
 
-```bash
-pip install numpy matplotlib scipy
 ```
-
-Ou utilisez le fichier `requirements.txt` :
-
-```bash
-pip install -r requirements.txt
-```
-
-## 💻 Utilisation
-
-1. Clonez le dépôt :
-```bash
-git clone https://github.com/[votre-username]/black-scholes-option-pricing.git
+bashgit clone https://github.com/[your-username]/black-scholes-option-pricing.git
 cd black-scholes-option-pricing
 ```
-
-2. Lancez Jupyter Notebook :
-```bash
-jupyter notebook companion.ipynb
+2. Launch Jupyter Notebook:
+```
+bashjupyter notebook companion.ipynb
 ```
 
-3. Exécutez les cellules séquentiellement pour :
-   - Définir les paramètres du modèle
-   - Calculer les prix avec les deux méthodes
-   - Visualiser les résultats et les Greeks
+3. Execute cells sequentially to:
+   - Define model parameters
+   - Calculate prices with both methods
+   - Visualize results and Greeks
 
-## 📐 Modèle Mathématique
+## 📐 Mathematical Model
 
-### Paramètres
+## Parameters
 
-| Symbole | Description | Valeur par défaut |
-|---------|-------------|-------------------|
-| S | Prix de l'actif sous-jacent | 100 |
-| K | Prix d'exercice (strike) | 100 |
-| T | Maturité (années) | 1.0 |
-| r | Taux d'intérêt sans risque | 0.05 |
-| σ | Volatilité | 0.2 |
+| Symbol | Description | Default Value |
+|---------|-------------|---------------|
+| S | Underlying asset price | 100 |
+| K | Strike price | 100 |
+| T | Maturity time (years) | 1.0 |
+| r | Risk-free interest rate | 0.05 |
+| σ | Volatility | 0.2 |
 
-### Équation de Black–Scholes
+### Black–Scholes Equation
 
-L'EDP gouvernant le prix de l'option V(t,S) :
+The PDE governing the option price V(t,S):
 
 ```
 ∂V/∂t + (1/2)σ²S² ∂²V/∂S² + rS ∂V/∂S - rV = 0
 ```
 
-Avec condition terminale : V(T,S) = max(S-K, 0)
+With terminal condition: V(T,S) = max(S-K, 0)
 
-### Formule Analytique
-
+### Analytical Formula
 ```
 V(t,S) = S·Φ(d₁) - K·e^(-r(T-t))·Φ(d₂)
+Where:
+
+d₁ = [ln(S/K) + (r + σ²/2)(T-t)] / [σ√(T-t)]
+d₂ = d₁ - σ√(T-t)
+Φ : cumulative distribution function of the standard normal distribution
 ```
 
-Où :
-- d₁ = [ln(S/K) + (r + σ²/2)(T-t)] / [σ√(T-t)]
-- d₂ = d₁ - σ√(T-t)
-- Φ : fonction de répartition de la loi normale standard
+## 📈 Results
+The notebook generates several visualizations:
 
-## 📈 Résultats
+Method comparison: chart showing convergence between analytical solution and FDM
+Greeks: price sensitivities to parameters (Delta, Gamma, Theta)
+Price surface: option price evolution as a function of time and asset price
 
-Le notebook génère plusieurs visualisations :
-
-1. **Comparaison des méthodes** : graphique montrant la convergence entre solution analytique et FDM
-2. **Greeks** : sensibilités du prix aux paramètres (Delta, Gamma, Theta)
-3. **Surface de prix** : évolution du prix en fonction du temps et du prix de l'actif
-
-## 🧪 Exemple de Code
-
-```python
-# Paramètres du modèle
-S0 = 100      # Prix actuel de l'actif
+## 🧪 Code Example
+python# Model parameters
+S0 = 100      # Current asset price
 K = 100       # Strike
-T = 1.0       # Maturité (1 an)
-r = 0.05      # Taux sans risque (5%)
-sigma = 0.2   # Volatilité (20%)
+T = 1.0       # Maturity (1 year)
+r = 0.05      # Risk-free rate (5%)
+sigma = 0.2   # Volatility (20%)
 
-# Calcul du prix analytique
+## Calculate analytical price
 price_bs = black_scholes_call(S0, K, T, r, sigma)
-print(f"Prix Black-Scholes : {price_bs:.4f}")
+print(f"Black-Scholes Price: {price_bs:.4f}")
 
-# Calcul des Greeks
+## Calculate Greeks
 delta = compute_delta(S0, K, T, r, sigma)
 gamma = compute_gamma(S0, K, T, r, sigma)
 theta = compute_theta(S0, K, T, r, sigma)
-```
+📚 Key Concepts
+Greeks
 
-## 📚 Concepts Clés
+Delta (Δ): sensitivity to underlying asset price
+Gamma (Γ): sensitivity of Delta to asset price
+Theta (Θ): sensitivity to time passage (time decay)
+Vega (ν): sensitivity to volatility
+Rho (ρ): sensitivity to interest rate
 
-### Greeks
+## 🔬 Numerical Method
+The finite difference method uses:
 
-- **Delta (Δ)** : sensibilité au prix de l'actif sous-jacent
-- **Gamma (Γ)** : sensibilité de Delta au prix de l'actif
-- **Theta (Θ)** : sensibilité au passage du temps (time decay)
-- **Vega (ν)** : sensibilité à la volatilité
-- **Rho (ρ)** : sensibilité au taux d'intérêt
+Spatial discretization: uniform grid for S
+Time discretization: adaptive time step
+Implicit scheme: unconditional stability
+Boundary conditions:
 
-## 🔬 Méthode Numérique
+S = 0 : V = 0
+S → ∞ : V ≈ S - K·e^(-r·τ)
 
-La méthode des différences finies utilise :
-- **Discrétisation spatiale** : grille uniforme pour S
-- **Discrétisation temporelle** : pas de temps adaptatif
-- **Schéma implicite** : stabilité inconditionnelle
-- **Conditions aux limites** : 
-  - S = 0 : V = 0
-  - S → ∞ : V ≈ S - K·e^(-r·τ)
 
-## 🎓 Références
 
-- Black, F., & Scholes, M. (1973). "The Pricing of Options and Corporate Liabilities". *Journal of Political Economy*, 81(3), 637-654.
-- Wilmott, P. (2006). *Paul Wilmott on Quantitative Finance*. John Wiley & Sons.
+## 🎓 References
 
-## 📝 Structure du Projet
+Black, F., & Scholes, M. (1973). "The Pricing of Options and Corporate Liabilities". Journal of Political Economy, 81(3), 637-654.
+Wilmott, P. (2006). Paul Wilmott on Quantitative Finance. John Wiley & Sons.
 
-```
-black-scholes-option-pricing/
-├── companion.ipynb          # Notebook principal
-├── README.md               # Ce fichier
-├── requirements.txt        # Dépendances Python
-└── paper/                  # Documentation théorique (optionnel)
-```
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à :
-- Signaler des bugs
-- Proposer de nouvelles fonctionnalités
-- Améliorer la documentation
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 👤 Auteur
-
-[Votre Nom] - [Votre Email/GitHub]
-
-## 🙏 Remerciements
-
-- Communauté Python scientifique (NumPy, SciPy, Matplotlib)
-- Ressources pédagogiques en finance quantitative
+👤 Author
+Laura Cohen
