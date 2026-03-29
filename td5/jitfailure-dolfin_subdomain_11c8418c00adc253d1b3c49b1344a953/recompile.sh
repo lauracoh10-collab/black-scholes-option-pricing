@@ -1,0 +1,3 @@
+#!/bin/bash
+# Execute this file to recompile locally
+arm64-apple-darwin20.0.0-clang++ -Wall -shared -fPIC -std=c++11 -O3 -fno-math-errno -fno-trapping-math -ffinite-math-only -I/opt/miniconda3/envs/pde/include -I/opt/miniconda3/envs/pde/include/eigen3 -I/opt/miniconda3/envs/pde/.cache/dijitso/include dolfin_subdomain_11c8418c00adc253d1b3c49b1344a953.cpp -L/opt/miniconda3/envs/pde/lib -L/opt/miniconda3/envs/pde/.cache/dijitso/lib -Wl,-rpath,/opt/miniconda3/envs/pde/.cache/dijitso/lib -lpmpi -lmpi -lmpicxx -lpetsc -lslepc -lz -lsz -lcurl -lcrypto -lhdf5 -lboost_timer -ldolfin -Wl,-install_name,/opt/miniconda3/envs/pde/.cache/dijitso/lib/libdijitso-dolfin_subdomain_11c8418c00adc253d1b3c49b1344a953.so -olibdijitso-dolfin_subdomain_11c8418c00adc253d1b3c49b1344a953.so
